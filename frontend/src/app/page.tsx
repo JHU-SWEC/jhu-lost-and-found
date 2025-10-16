@@ -13,7 +13,7 @@ export default function Home() {
         buttons={{
           primary: {
             text: "Log In",
-            url: "https://www.shadcnblocks.com",
+            url: "/login",
           },
           secondary: {
             text: "View on GitHub",
