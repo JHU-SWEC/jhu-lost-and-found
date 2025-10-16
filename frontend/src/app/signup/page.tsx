@@ -7,11 +7,39 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Handle sign-up request to backend
-    console.log("Signing up:", { name, email, password });
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:5001/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Signup failed");
+      }
+
+      console.log("Signup successful:", data);
+      // Save JWT token in localStorage (optional)
+      localStorage.setItem("token", data.token);
+
+      // Redirect to login page after signup
+      window.location.href = "/login";
+    } catch (err: any) {
+      console.error("Error signing up:", err.message);
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,6 +54,7 @@ export default function SignupPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="email"
@@ -33,6 +62,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <input
             type="password"
@@ -40,12 +70,14 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
           <button
             type="submit"
-            className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition"
+            disabled={loading}
+            className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 
