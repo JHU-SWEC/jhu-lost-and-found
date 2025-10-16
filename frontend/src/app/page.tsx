@@ -7,21 +7,22 @@ export default function Home() {
     <main>
       <Hero1
         badge="✨ Your Website Builder"
-        heading="Blocks Built With Shadcn & Tailwind"
-        description="Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project."
+        heading="JHU Lost and Found"
+        description="A community-driven platform for Johns Hopkins students to report, search, and claim lost items on campus.
+                    Built by Hopkins students to make finding your stuff a little easier."
         buttons={{
           primary: {
-            text: "Discover all components",
+            text: "Log In",
             url: "https://www.shadcnblocks.com",
           },
           secondary: {
             text: "View on GitHub",
-            url: "https://www.shadcnblocks.com",
+            url: "https://github.com/JHU-SWEC/jhu-lost-and-found",
           },
         }}
         image={{
-          src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
-          alt: "Hero section demo image showing interface components",
+          src: "/images/jhu-logo.svg",
+          alt: "Johns Hopkins University logo",
         }}
       />
     </main>
