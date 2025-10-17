@@ -2,8 +2,9 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+
 interface Hero1Props {
-  badge?: string;
+  // badge?: string;
   heading: string;
   description: string;
   buttons?: {
@@ -14,7 +15,7 @@ interface Hero1Props {
 }
 
 const Hero1 = ({
-  badge = "✨ Your Website Builder",
+  // badge = "✨ Your Website Builder",
   heading = "Blocks Built With Shadcn & Tailwind",
   description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
   buttons = {
@@ -39,12 +40,12 @@ const Hero1 = ({
           
           {/* Left Column */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-            {badge && (
+            {/* {badge && (
               <Badge variant="outline" className="mb-4">
                 {badge}
                 <ArrowUpRight className="ml-2 h-4 w-4" />
               </Badge>
-            )}
+            )} */}
             <h1 className="text-4xl font-bold leading-tight lg:text-6xl mb-6">
               {heading}
             </h1>
@@ -55,7 +56,7 @@ const Hero1 = ({
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full">
               {buttons.primary && (
-                <Button asChild variant="black" className="w-full sm:w-auto">
+                <Button asChild variant="default" className="w-full sm:w-auto">
                   <a href={buttons.primary.url}>{buttons.primary.text}</a>
                 </Button>
               )}
