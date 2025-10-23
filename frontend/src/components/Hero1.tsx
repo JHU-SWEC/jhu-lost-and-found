@@ -1,3 +1,8 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,6 +38,9 @@ const Hero1 = ({
     alt: "Hero section demo image showing interface components",
   },
 }: Hero1Props) => {
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+
   return (
     <section className="min-h-screen flex items-center justify-center py-16">
       <div className="container mx-auto px-4">
@@ -55,18 +63,36 @@ const Hero1 = ({
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full">
-              {buttons.primary && (
-                <Button asChild variant="default" className="w-full sm:w-auto">
-                  <a href={buttons.primary.url}>{buttons.primary.text}</a>
-                </Button>
-              )}
-              {buttons.secondary && (
-                <Button asChild variant="outline" className="w-full sm:w-auto">
-                  <a href={buttons.secondary.url}>
-                    {buttons.secondary.text}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
+              {loading ? (
+                <span className="text-sm text-gray-500">Loading...</span>
+              ) : session ? (
+                <>
+                  <Button asChild variant="default" className="w-full sm:w-auto">
+                    <Link href="/lost">Lost</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full sm:w-auto">
+                    <Link href="/found">Found</Link>
+                  </Button>
+                  <Button asChild variant="ghost" className="w-full sm:w-auto">
+                    <Link href="/report">Report Lost/Found</Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {buttons.primary && (
+                    <Button asChild variant="default" className="w-full sm:w-auto">
+                      <a href={buttons.primary.url}>{buttons.primary.text}</a>
+                    </Button>
+                  )}
+                  {buttons.secondary && (
+                    <Button asChild variant="outline" className="w-full sm:w-auto">
+                      <a href={buttons.secondary.url}>
+                        {buttons.secondary.text}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  )}
+                </>
               )}
             </div>
           </div>
