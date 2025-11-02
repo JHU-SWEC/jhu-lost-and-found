@@ -15,9 +15,9 @@ export default function LostPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {placeholder.map((item) => (
-            <div key={item.id} className="border rounded-md p-4">
-              <h2 className="font-semibold">{item.title}</h2>
-              <p className="text-sm text-muted-foreground">Location: {item.location}</p>
+            <div key={item.id} className="rounded-2xl border bg-white p-4 shadow-sm transition duration-200 ease-out group-hover:shadow-xl group-focus:shadow-xl group-hover:scale-[1.02] group-focus:scale-[1.02]">
+              <h2 className="font-semibold text-lg">{item.title}</h2>
+              <p className="text-sm text-muted-foreground mt-1">Location: {item.location}</p>
               <p className="text-sm text-muted-foreground">Date reported: {item.date}</p>
             </div>
           ))}
