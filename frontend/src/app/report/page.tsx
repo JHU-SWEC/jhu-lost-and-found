@@ -9,42 +9,51 @@ export default function ReportPage() {
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  
+
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitting(true);
-    setMessage(null);
+  e.preventDefault();
+  setSubmitting(true);
+  setMessage(null);
 
-    try {
-      const res = await fetch("http://localhost:500/api/items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          description,
-          found: category === "found", // converts "found"/"lost" to true/false
-          location,
-        }),
-      });
+  console.log("imageUrl about to submit:", imageUrl);
 
-      const data = await res.json();
+  try {
+    const res = await fetch("http://localhost:500/api/items", { 
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        description,
+        found: category === "found",
+        location,
+        imageUrl, 
+      }),
+    });
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to submit");
-      }
+    const data = await res.json();
 
-      setMessage("✅ Report submitted successfully!");
-      setTitle("");
-      setLocation("");
-      setDescription("");
-      setCategory("lost");
-    } catch (err: any) {
-      console.error(err);
-      setMessage(`❌ ${err.message}`);
-    } finally {
-      setSubmitting(false);
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to submit");
     }
+
+    setMessage("✅ Report submitted successfully!");
+    setTitle("");
+    setLocation("");
+    setDescription("");
+    setCategory("lost");
+    setImageUrl(null);
+  } catch (err: any) {
+    console.error(err);
+    setMessage(`❌ ${err.message}`);
+  } finally {
+    setSubmitting(false);
   }
+}
+
 
   return (
     <main className="flex flex-col min-h py-16">
@@ -84,6 +93,38 @@ export default function ReportPage() {
               onChange={(e) => setLocation(e.target.value)}
               className="w-full rounded border px-3 py-2"
             />
+          </div>
+
+          <div>
+            <label> Optional Img upload </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+            />
+
+            <button
+              type="button"
+              disabled={!file}
+              className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
+              onClick={async () => {
+                if (!file) return;
+                const formData = new FormData();
+                formData.append("file", file);
+                const res = await fetch("/api/upload", {
+                  method: "POST",
+                  body: formData,
+                });
+                const data = await res.json();
+                console.log("Uploaded image URL:", data.secure_url);
+                setImageUrl(data.secure_url); 
+              }}
+            >
+              Upload
+            </button>
+
+
+
           </div>
 
           <div>

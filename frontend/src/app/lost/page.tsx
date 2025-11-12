@@ -62,7 +62,7 @@ export default function LostPage() {
                 </p>
 
                 <p className="text-xs text-gray-400 mt-1">
-                  Reported on:{" "}
+                  {/* Reported on:{" "} */}
                   {new Date(item.createdAt).toLocaleString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -72,9 +72,9 @@ export default function LostPage() {
                   })}
                 </p>
 
-                <p className="text-xs text-gray-400">
+                {/* <p className="text-xs text-gray-400">
                   Posted by: {item.user || "Anonymous"}
-                </p>
+                </p> */}
               </div>
             ))}
           </div>
