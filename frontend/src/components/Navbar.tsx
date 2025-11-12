@@ -42,7 +42,7 @@ function Navbar() {
               <Button
                 variant="ghost"
                 className="flex items-center justify-center"
-                onClick={() => signIn()}
+                onClick={() => signIn("google", { callbackUrl: "/" })}
               >
                 <LogIn className="w-5 h-5 mr-1" />
                 <span>Login</span>

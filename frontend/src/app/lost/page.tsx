@@ -62,7 +62,14 @@ export default function LostPage() {
                 </p>
 
                 <p className="text-xs text-gray-400 mt-1">
-                  Reported on: {new Date(item.createdAt).toLocaleDateString()}
+                  Reported on:{" "}
+                  {new Date(item.createdAt).toLocaleString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
                 </p>
 
                 <p className="text-xs text-gray-400">
