@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <main>
       <Hero1
-        // badge="✨ Your Website Builder"
         heading="Blue Jay Lost and Found"
         description="A community-driven platform for Johns Hopkins students to report, search, and claim lost items on campus.
                     Built by Hopkins students to make finding your stuff a little easier."
