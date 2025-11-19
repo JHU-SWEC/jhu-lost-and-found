@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import FoundItemsView, { FoundItem } from "./components/FoundItemsView";
 
 interface Item {
   _id: string;
