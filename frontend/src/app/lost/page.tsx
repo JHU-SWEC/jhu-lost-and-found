@@ -83,6 +83,7 @@ export default function LostPage() {
                 </p>
 
                 <p className="text-xs text-gray-400 mt-1">
+                  📅  {" "}
                   {new Date(item.createdAt).toLocaleString("en-US", {
                     month: "short",
                     day: "numeric",
