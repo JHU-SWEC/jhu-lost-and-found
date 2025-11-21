@@ -56,12 +56,15 @@ const handler = NextAuth({
     signIn: "/login", // your existing login page
   },
   callbacks: {
+
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.sub;
+    if (token) {
+      if (!session.user) session.user = {} as any;
+        session.user.id = token.sub!;
       }
       return session;
     },
+
   },
   secret: process.env.NEXTAUTH_SECRET,
 });
