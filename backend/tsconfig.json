@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
+    "target": "es2017",
+    "module": "commonjs",
     "rootDir": "./",
-    "outDir": "dist",
-    "strict": true,
+    "outDir": "./dist",
     "esModuleInterop": true,
+    "strict": false,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }
