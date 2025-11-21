@@ -9,7 +9,6 @@ if (!uri) {
 const options = {};
 
 declare global {
-  // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
@@ -27,4 +26,7 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect();
 }
 
-export default clientPromise;
+
+export const mongoClientPromise: Promise<MongoClient> = clientPromise;
+
+export default mongoClientPromise;
