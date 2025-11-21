@@ -4,9 +4,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 import { compare } from "bcryptjs"; // if you hash passwords
+import { MongoClient } from "mongodb";
+
+const typedClientPromise: Promise<MongoClient> = clientPromise;
 
 const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(typedClientPromise),
   session: {
     strategy: "jwt",
   },
