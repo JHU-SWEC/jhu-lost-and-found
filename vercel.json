@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm run dev",
-  "cleanUrls": true
-}
