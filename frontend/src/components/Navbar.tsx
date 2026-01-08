@@ -12,22 +12,22 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="h-full flex items-center justify-between px-4 sm:px-8 lg:px-12 mx-auto max-w-screen-xl">
+      <div className="h-full flex items-center justify-between w-full">
         {/* Left side - Home */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition">
+        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition h-full flex items-center">
           <img src="/images/Johns-Hopkins-University-Symbol.png" className="h-8" alt="JHU Logo" />
           <span className="text-xs sm:text-base">Home</span>
         </Link>
 
         {/* Right side - Navigation links */}
-        <div className="flex items-center">
-          <Link href="/lost" className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition">
+        <div className="flex items-center h-full flex-1 justify-end">
+          <Link href="/lost" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
             Lost
           </Link>
-          <Link href="/found" className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition">
+          <Link href="/found" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
             Found
           </Link>
-          <Link href="/report" className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition">
+          <Link href="/report" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
             Report
           </Link>
 

@@ -69,7 +69,7 @@ export default function ReportPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
+            <label className="block text-sm font-medium mb-1">Item name</label>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
