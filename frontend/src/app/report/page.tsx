@@ -11,6 +11,8 @@ export default function ReportPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   
 
 
@@ -45,7 +47,9 @@ export default function ReportPage() {
     setLocation("");
     setDescription("");
     setCategory("lost");
+    setFile(null);
     setImageUrl(null);
+    setUploadError(null);
   } catch (err: any) {
     console.error(err);
     setMessage(`❌ ${err.message}`);
@@ -96,35 +100,63 @@ export default function ReportPage() {
           </div>
 
           <div>
-            <label> Upload Image </label>
+            <label className="block text-sm font-medium mb-1">Upload Image (Optional)</label>
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              onChange={(e) => {
+                const selectedFile = e.target.files?.[0] || null;
+                setFile(selectedFile);
+                setImageUrl(null); // Reset previous image URL
+                setUploadError(null);
+              }}
+              className="mb-2"
             />
 
-            <button
-              type="button"
-              disabled={!file}
-              className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
-              onClick={async () => {
-                if (!file) return;
-                const formData = new FormData();
-                formData.append("file", file);
-                const res = await fetch("/api/upload", {
-                  method: "POST",
-                  body: formData,
-                });
-                const data = await res.json();
-                console.log("Uploaded image URL:", data.secure_url);
-                setImageUrl(data.secure_url); 
-              }}
-            >
-              Upload
-            </button>
+            {file && !imageUrl && (
+              <button
+                type="button"
+                disabled={uploading}
+                className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
+                onClick={async () => {
+                  if (!file) return;
+                  setUploading(true);
+                  setUploadError(null);
+                  try {
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    const res = await fetch("/api/upload", {
+                      method: "POST",
+                      body: formData,
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                      throw new Error(data.message || "Upload failed");
+                    }
+                    console.log("Uploaded image URL:", data.secure_url);
+                    setImageUrl(data.secure_url);
+                  } catch (err: any) {
+                    console.error("Upload error:", err);
+                    setUploadError(err.message || "Failed to upload image");
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              >
+                {uploading ? "Uploading..." : "Upload Image"}
+              </button>
+            )}
 
+            {imageUrl && (
+              <div className="mt-2">
+                <p className="text-sm text-green-600">✅ Image uploaded successfully!</p>
+                <img src={imageUrl} alt="Preview" className="mt-2 max-w-xs rounded" />
+              </div>
+            )}
 
-
+            {uploadError && (
+              <p className="text-sm text-red-600 mt-2">❌ {uploadError}</p>
+            )}
           </div>
 
           <div>
