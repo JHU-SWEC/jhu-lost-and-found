@@ -56,7 +56,7 @@ export default function ReportPage() {
 
 
   return (
-    <main className="flex flex-col min-h pt-20 pb-16">
+    <main className="flex flex-col min-h py-8">
       <div className="max-w-2xs px-4 ml-0 sm:ml-4 lg:ml-8">
         <h1 className="text-2xl font-bold mb-4">Report Lost or Found Item</h1>
         <p className="text-muted-foreground mb-6">

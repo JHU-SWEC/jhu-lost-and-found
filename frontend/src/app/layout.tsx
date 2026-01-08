@@ -17,7 +17,9 @@ export default function RootLayout({
       <body>
         <SessionProviderWrapper>
           <Navbar />
-          {children}
+          <main className="pt-16">
+            {children}
+          </main>
         </SessionProviderWrapper>
       </body>
     </html>

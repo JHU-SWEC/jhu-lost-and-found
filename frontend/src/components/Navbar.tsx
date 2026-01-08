@@ -11,7 +11,7 @@ function Navbar() {
   const loading = status === "loading";
 
   return (
-    <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
         <Link href="/" className="D">
         <img src="/images/jhu-logo.svg" className="h-3" alt="JHU Logo" />
