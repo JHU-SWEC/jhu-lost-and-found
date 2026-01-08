@@ -69,27 +69,38 @@ export default function FoundPage() {
               <div
                 key={item._id}
                 onClick={() => setSelectedItem(item)}
-                className="border rounded-md p-4 shadow-sm hover:shadow-md transition"
+                className="cursor-pointer border rounded-md overflow-hidden shadow-sm hover:shadow-md transition"
               >
-                <h2 className="font-semibold text-lg">{item.title}</h2>
-
-                {item.description && (
-                  <p className="text-sm text-gray-700 mt-1">
-                    {item.description}
-                  </p>
+                {item.imageUrl && (
+                  <div className="w-full aspect-video overflow-hidden bg-gray-100">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
+                <div className="p-4">
+                  <h2 className="font-semibold text-lg">{item.title}</h2>
 
-                <p className="text-sm text-gray-500 mt-2">
-                  📍 Location: {item.location || "Unknown"}
-                </p>
+                  {item.description && (
+                    <p className="text-sm text-gray-700 mt-1 line-clamp-2">
+                      {item.description}
+                    </p>
+                  )}
 
-                <p className="text-xs text-gray-400 mt-1">
-                  Reported on: {new Date(item.createdAt).toLocaleDateString()}
-                </p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    📍 Location: {item.location || "Unknown"}
+                  </p>
 
-                <p className="text-xs text-gray-400">
-                  Posted by: {item.user || "Anonymous"}
-                </p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Reported on: {new Date(item.createdAt).toLocaleDateString()}
+                  </p>
+
+                  <p className="text-xs text-gray-400">
+                    Posted by: {item.user || "Anonymous"}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
