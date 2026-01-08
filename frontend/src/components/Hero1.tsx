@@ -42,7 +42,7 @@ const Hero1 = ({
   const loading = status === "loading";
 
   return (
-    <section className="max-h-screen flex items-start mt-8 sm:mt-12 lg:mt-32 justify-start pt-6">
+    <section className="max-h-screen flex items-start mt-20 sm:mt-24 lg:mt-32 justify-start pt-6">
       <div className="mx-auto max-w-screen-2xl px-6">
         <div className="grid grid-cols-1 sm:grid-cols-6 gap-6">
           
