@@ -104,27 +104,17 @@ export default function ReportPage() {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
+              onChange={async (e) => {
                 const selectedFile = e.target.files?.[0] || null;
                 setFile(selectedFile);
                 setImageUrl(null); // Reset previous image URL
                 setUploadError(null);
-              }}
-              className="mb-2"
-            />
 
-            {file && !imageUrl && (
-              <button
-                type="button"
-                disabled={uploading}
-                className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
-                onClick={async () => {
-                  if (!file) return;
+                if (selectedFile) {
                   setUploading(true);
-                  setUploadError(null);
                   try {
                     const formData = new FormData();
-                    formData.append("file", file);
+                    formData.append("file", selectedFile);
                     const res = await fetch("/api/upload", {
                       method: "POST",
                       body: formData,
@@ -141,10 +131,14 @@ export default function ReportPage() {
                   } finally {
                     setUploading(false);
                   }
-                }}
-              >
-                {uploading ? "Uploading..." : "Upload Image"}
-              </button>
+                }
+              }}
+              className="mb-2"
+              disabled={uploading}
+            />
+
+            {uploading && (
+              <p className="text-sm text-gray-600 mt-2">Uploading image...</p>
             )}
 
             {imageUrl && (
