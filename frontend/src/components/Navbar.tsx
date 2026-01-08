@@ -14,7 +14,7 @@ function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="h-full flex items-center justify-between w-full">
         {/* Left side - Home */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition h-full flex items-center">
+        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition h-full">
           <img src="/images/Johns-Hopkins-University-Symbol.png" className="h-8" alt="JHU Logo" />
           <span className="text-xs sm:text-base">Home</span>
         </Link>
