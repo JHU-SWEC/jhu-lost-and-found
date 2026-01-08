@@ -1,7 +1,7 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, MongoClientOptions } from "mongodb";
 
 const uri = process.env.MONGO_URI as string;
-const options = {};
+const options: MongoClientOptions = {};
 
 // Validate required env var
 if (!uri) {

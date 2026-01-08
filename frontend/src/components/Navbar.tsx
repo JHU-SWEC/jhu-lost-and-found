@@ -11,12 +11,23 @@ function Navbar() {
   const loading = status === "loading";
 
   return (
-    <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-      <div className="max-w-10xl mx-auto px-4 ">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
+        <Link href="/" className="D">
+        <img src="/images/jhu-logo.svg" className="h-3" alt="JHU Logo" />
+        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Home</span>
+      </Link>
+
+        <div className="flex items-center ">
           {/* Logo */}
-          <Link href="/" className="text-xl flex flex-col">
-            Home
+          <Link href="/lost" className="text-xl flex flex-col p-4">
+            Lost Items
+          </Link>
+          <Link href="/found" className="text-xl flex flex-col p-4">
+            Found Items
+          </Link>
+          <Link href="/report" className="text-xl flex flex-col p-4">
+            Report Items
           </Link>
 
           {/* Navbar items */}
@@ -48,6 +59,7 @@ function Navbar() {
                 <span>Login</span>
               </Button>
             )}
+
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow">
-        <h1 className="text-3xl font-bold mb-6 text-center">Log In</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Log in with JHED Email</h1>
 
         <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
           <input

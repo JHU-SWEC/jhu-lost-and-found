@@ -45,7 +45,7 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow">
-        <h1 className="text-3xl font-bold mb-6 text-center">Create Account</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Create Account with JHED</h1>
 
         <form className="flex flex-col space-y-4" onSubmit={handleSignup}>
           <input
