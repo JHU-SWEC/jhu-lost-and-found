@@ -21,7 +21,7 @@ export default function LostPage() {
   useEffect(() => {
     async function fetchLostItems() {
       try {
-        const res = await fetch("http://localhost:500/api/items?found=false");
+        const res = await fetch("/api/items?found=false");
         const data = await res.json();
         setItems(data);
       } catch (err) {

@@ -22,7 +22,7 @@ export default function ReportPage() {
   console.log("imageUrl about to submit:", imageUrl);
 
   try {
-    const res = await fetch("http://localhost:500/api/items", { 
+    const res = await fetch("/api/items", { 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

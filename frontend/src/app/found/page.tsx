@@ -22,7 +22,7 @@ export default function FoundPage() {
   useEffect(() => {
     async function fetchFoundItems() {
       try {
-        const res = await fetch("http://localhost:500/api/items?found=true");
+        const res = await fetch("/api/items?found=true");
         const data = await res.json();
         setItems(data);
       } catch (err) {
