@@ -12,11 +12,11 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="h-full flex items-center justify-between px-2 sm:px-4 mx-auto max-w-screen-xl">
+      <div className="h-full flex items-center justify-between px-4 sm:px-8 lg:px-12 mx-auto max-w-screen-xl">
         {/* Left side - Home */}
-        <Link href="/" className="flex items-center gap-1 sm:gap-2 shrink-0">
-          <img src="/images/jhu-logo.svg" className="h-3" alt="JHU Logo" />
-          <span className="text-sm sm:text-xl font-semibold whitespace-nowrap">Home</span>
+        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition">
+          <img src="/images/Johns-Hopkins-University-Symbol.png" className="h-8" alt="JHU Logo" />
+          <span className="text-xs sm:text-base">Home</span>
         </Link>
 
         {/* Right side - Navigation links */}
