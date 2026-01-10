@@ -4,15 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 function Navbar() {
   const { data: session, status } = useSession();
   const loading = status === "loading";
-
-  const handleLoginRedirect = () => {
-    window.location.href = "/login";
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
@@ -69,7 +65,7 @@ function Navbar() {
                   variant="ghost"
                   size="sm"
                   className="flex items-center"
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: "/" })}
                 >
                   <LogOut className="w-4 h-4 mr-1" />
                   <span>Sign out</span>
@@ -80,7 +76,7 @@ function Navbar() {
                 variant="ghost"
                 size="sm"
                 className="flex items-center"
-                onClick={handleLoginRedirect}
+                onClick={() => signIn("google", { callbackUrl: "/" })}
               >
                 <LogIn className="w-4 h-4 mr-1" />
                 <span>Login</span>
