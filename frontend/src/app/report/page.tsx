@@ -133,15 +133,31 @@ export default function ReportPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded border px-3 py-2"
-            >
-              <option value="lost">Lost</option>
-              <option value="found">Found</option>
-            </select>
+            <label className="block text-sm font-medium mb-2">Category</label>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setCategory("lost")}
+                className={`flex-1 px-4 py-3 rounded border-2 transition font-semibold ${
+                  category === "lost"
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
+                }`}
+              >
+                Lost
+              </button>
+              <button
+                type="button"
+                onClick={() => setCategory("found")}
+                className={`flex-1 px-4 py-3 rounded border-2 transition font-semibold ${
+                  category === "found"
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
+                }`}
+              >
+                Found
+              </button>
+            </div>
           </div>
 
           <div>
