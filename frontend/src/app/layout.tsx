@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import SessionProviderWrapper from "./SessionProviderWrapper";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Lost and Found",
@@ -24,6 +25,7 @@ export default function RootLayout({
             {children}
           </main>
         </SessionProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );
