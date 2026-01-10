@@ -70,15 +70,15 @@ const Hero1 = ({
           {loading ? (
             <span className="px-4 sm:px-40 lg:px-30 text-sm text-gray-500">Loading...</span>
           ) : session ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[100px] items-stretch">
-              <Button asChild className="text-xl group p-0 border border-blue-500 items-center justify-center rounded bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition">
-                <Link href="/lost">Search Lost Items</Link>
+            <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4 sm:gap-6 h-[calc(100vh-250px)] sm:h-auto">
+              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
+                <Link href="/lost" className="w-full h-full flex items-center justify-center">Search Lost Items</Link>
               </Button>
-              <Button asChild className="text-xl group p-0 border border-blue-500 items-center justify-center rounded bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition">
-                <Link href="/found">Search Found Items</Link>
+              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
+                <Link href="/found" className="w-full h-full flex items-center justify-center">Search Found Items</Link>
               </Button>
-              <Button asChild className="text-xl group p-0 border border-blue-500 items-center justify-center rounded bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition ">
-                <Link href="/report">Report Lost/Found</Link>
+              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
+                <Link href="/report" className="w-full h-full flex items-center justify-center">Report Lost/Found</Link>
               </Button>
             </div>
           ) : (
