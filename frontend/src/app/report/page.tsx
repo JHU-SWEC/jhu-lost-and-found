@@ -15,6 +15,8 @@ export default function ReportPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Auto-fill email from session when session loads (only if not anonymous and email is empty)
   useEffect(() => {
@@ -22,9 +24,42 @@ export default function ReportPage() {
       setContactEmail(session.user.email);
     }
   }, [session?.user?.email]);
-  
 
+  // Auto-upload image when file is selected
+  useEffect(() => {
+    async function uploadImage() {
+      if (!file) return;
 
+      setUploading(true);
+      setUploadError(null);
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to upload image");
+        }
+
+        console.log("Uploaded image URL:", data.secure_url);
+        setImageUrl(data.secure_url);
+      } catch (err: any) {
+        console.error("Upload error:", err);
+        setUploadError(err.message || "Failed to upload image");
+        setFile(null);
+      } finally {
+        setUploading(false);
+      }
+    }
+
+    uploadImage();
+  }, [file]);
 
   async function handleSubmit(e: React.FormEvent) {
   e.preventDefault();
@@ -59,7 +94,9 @@ export default function ReportPage() {
     setLocation("");
     setDescription("");
     setCategory("lost");
+    setFile(null);
     setImageUrl(null);
+    setUploadError(null);
     setAnonymous(false);
     // Reset email to session email after successful submission
     if (session?.user?.email) {
@@ -86,7 +123,7 @@ export default function ReportPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Item name</label>
+            <label className="block text-sm font-medium mb-1">Title</label>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -117,35 +154,30 @@ export default function ReportPage() {
           </div>
 
           <div>
-            <label> Upload Image </label>
+            <label className="block text-sm font-medium mb-1">Upload Image</label>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="w-full rounded border px-3 py-2"
+              disabled={uploading}
             />
-
-            <button
-              type="button"
-              disabled={!file}
-              className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
-              onClick={async () => {
-                if (!file) return;
-                const formData = new FormData();
-                formData.append("file", file);
-                const res = await fetch("/api/upload", {
-                  method: "POST",
-                  body: formData,
-                });
-                const data = await res.json();
-                console.log("Uploaded image URL:", data.secure_url);
-                setImageUrl(data.secure_url); 
-              }}
-            >
-              Upload
-            </button>
-
-
-
+            {uploading && (
+              <p className="text-sm text-blue-600 mt-1">Uploading image...</p>
+            )}
+            {uploadError && (
+              <p className="text-sm text-red-600 mt-1">❌ {uploadError}</p>
+            )}
+            {imageUrl && !uploading && (
+              <div className="mt-2">
+                <p className="text-sm text-green-600 mb-2">✅ Image uploaded successfully!</p>
+                <img
+                  src={imageUrl}
+                  alt="Upload preview"
+                  className="max-w-xs max-h-48 rounded border"
+                />
+              </div>
+            )}
           </div>
 
           <div>
