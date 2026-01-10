@@ -5,6 +5,9 @@ import SessionProviderWrapper from "./SessionProviderWrapper";
 export const metadata = {
   title: "Lost and Found",
   description: "JHU Lost and Found App",
+  icons: {
+    icon: "/images/bluejay_magnifier_transparent.png",
+  },
 };
 
 export default function RootLayout({
