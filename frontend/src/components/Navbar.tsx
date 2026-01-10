@@ -11,8 +11,8 @@ function Navbar() {
   const loading = status === "loading";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="h-full flex items-center justify-between px-4 sm:px-8 lg:px-12 mx-auto max-w-screen-xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 w-full">
+      <div className="h-full flex items-center justify-between px-2 sm:px-4 md:px-6 lg:px-8 w-full">
         {/* Left side - Home */}
         <Link
           href="/"
