@@ -93,12 +93,15 @@ export default function FoundPage() {
                     📍 Location: {item.location || "Unknown"}
                   </p>
 
-                  <p className="text-xs text-gray-400 mt-1">
-                    Reported on: {new Date(item.createdAt).toLocaleDateString()}
-                  </p>
-
-                  <p className="text-xs text-gray-400">
-                    Posted by: {item.user || "Anonymous"}
+                   <p className="text-xs text-gray-400 mt-1">
+                    📅  {" "}
+                    {new Date(item.createdAt).toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
               </div>
