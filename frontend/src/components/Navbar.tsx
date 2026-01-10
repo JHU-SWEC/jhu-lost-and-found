@@ -12,55 +12,54 @@ function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="h-full flex items-center justify-between w-full">
-        {/* Left side - Home */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 hover:bg-gray-100 rounded px-2 py-1 transition h-full">
-          <img src="/images/Johns-Hopkins-University-Symbol.png" className="h-8" alt="JHU Logo" />
-          <span className="text-xs sm:text-base">Home</span>
-        </Link>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
+        <Link href="/" className="D">
+        <img src="/images/jhu-logo.svg" className="h-3" alt="JHU Logo" />
+        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Home</span>
+      </Link>
 
-        {/* Right side - Navigation links */}
-        <div className="flex items-center h-full flex-1 justify-end">
-          <Link href="/lost" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
-            Lost
+        <div className="flex items-center ">
+          {/* Logo */}
+          <Link href="/lost" className="text-xl flex flex-col p-4">
+            Lost Items
           </Link>
-          <Link href="/found" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
-            Found
+          <Link href="/found" className="text-xl flex flex-col p-4">
+            Found Items
           </Link>
-          <Link href="/report" className="text-xs sm:text-base h-full flex items-center px-2 sm:px-4 hover:bg-gray-100 transition">
-            Report
+          <Link href="/report" className="text-xl flex flex-col p-4">
+            Report Items
           </Link>
 
-          {/* Auth section - hidden on mobile */}
-          <div className="hidden md:flex items-center ml-2 pl-2 border-l">
+          {/* Navbar items */}
+          <div className="hidden md:flex items-center space-x-4">
             {loading ? (
               <span className="text-sm text-gray-500">Loading...</span>
             ) : session ? (
               <>
-                <span className="text-sm text-gray-700 mr-2">
+                <span className="text-sm text-gray-700">
+                  Signed in as{" "}
                   <strong>{session.user?.name}</strong>
                 </span>
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="flex items-center"
+                  className="flex items-center justify-center"
                   onClick={() => signOut()}
                 >
-                  <LogOut className="w-4 h-4 mr-1" />
+                  <LogOut className="w-5 h-5 mr-1" />
                   <span>Sign out</span>
                 </Button>
               </>
             ) : (
               <Button
                 variant="ghost"
-                size="sm"
-                className="flex items-center"
+                className="flex items-center justify-center"
                 onClick={() => signIn("google", { callbackUrl: "/" })}
               >
-                <LogIn className="w-4 h-4 mr-1" />
+                <LogIn className="w-5 h-5 mr-1" />
                 <span>Login</span>
               </Button>
             )}
+
           </div>
         </div>
       </div>
