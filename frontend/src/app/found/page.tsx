@@ -93,7 +93,11 @@ export default function FoundPage() {
                     📍 Location: {item.location || "Unknown"}
                   </p>
 
-                   <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-sm text-gray-500 mt-1">
+                    📧 Contact: {item.user === "anonymous" || !item.user ? "anonymous" : item.user}
+                  </p>
+
+                  <p className="text-xs text-gray-400 mt-1">
                     📅  {" "}
                     {new Date(item.createdAt).toLocaleString("en-US", {
                       month: "short",
@@ -148,6 +152,10 @@ export default function FoundPage() {
 
               <p className="text-gray-500 mt-3">
                 📍 {selectedItem.location || "Unknown"}
+              </p>
+
+              <p className="text-gray-500 mt-2">
+                📧 Contact: {selectedItem.user === "anonymous" || !selectedItem.user ? "anonymous" : selectedItem.user}
               </p>
 
               <p className="text-xs text-gray-400 mt-2">

@@ -1,19 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function ReportPage() {
+  const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("lost");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Auto-fill email from session when session loads (only if not anonymous and email is empty)
+  useEffect(() => {
+    if (session?.user?.email && !anonymous && !contactEmail) {
+      setContactEmail(session.user.email);
+    }
+  }, [session?.user?.email]);
   
+
 
 
   async function handleSubmit(e: React.FormEvent) {
@@ -32,7 +42,9 @@ export default function ReportPage() {
         description,
         found: category === "found",
         location,
-        imageUrl, 
+        imageUrl,
+        contactEmail: anonymous ? "" : contactEmail,
+        anonymous,
       }),
     });
 
@@ -47,9 +59,14 @@ export default function ReportPage() {
     setLocation("");
     setDescription("");
     setCategory("lost");
-    setFile(null);
     setImageUrl(null);
-    setUploadError(null);
+    setAnonymous(false);
+    // Reset email to session email after successful submission
+    if (session?.user?.email) {
+      setContactEmail(session.user.email);
+    } else {
+      setContactEmail("");
+    }
   } catch (err: any) {
     console.error(err);
     setMessage(`❌ ${err.message}`);
@@ -100,57 +117,35 @@ export default function ReportPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Upload Image (Optional)</label>
+            <label> Upload Image </label>
             <input
               type="file"
               accept="image/*"
-              onChange={async (e) => {
-                const selectedFile = e.target.files?.[0] || null;
-                setFile(selectedFile);
-                setImageUrl(null); // Reset previous image URL
-                setUploadError(null);
-
-                if (selectedFile) {
-                  setUploading(true);
-                  try {
-                    const formData = new FormData();
-                    formData.append("file", selectedFile);
-                    const res = await fetch("/api/upload", {
-                      method: "POST",
-                      body: formData,
-                    });
-                    const data = await res.json();
-                    if (!res.ok) {
-                      throw new Error(data.message || "Upload failed");
-                    }
-                    console.log("Uploaded image URL:", data.secure_url);
-                    setImageUrl(data.secure_url);
-                  } catch (err: any) {
-                    console.error("Upload error:", err);
-                    setUploadError(err.message || "Failed to upload image");
-                  } finally {
-                    setUploading(false);
-                  }
-                }
-              }}
-              className="mb-2"
-              disabled={uploading}
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
 
-            {uploading && (
-              <p className="text-sm text-gray-600 mt-2">Uploading image...</p>
-            )}
+            <button
+              type="button"
+              disabled={!file}
+              className="bg-gray-800 text-white px-3 py-1 rounded disabled:opacity-50"
+              onClick={async () => {
+                if (!file) return;
+                const formData = new FormData();
+                formData.append("file", file);
+                const res = await fetch("/api/upload", {
+                  method: "POST",
+                  body: formData,
+                });
+                const data = await res.json();
+                console.log("Uploaded image URL:", data.secure_url);
+                setImageUrl(data.secure_url); 
+              }}
+            >
+              Upload
+            </button>
 
-            {imageUrl && (
-              <div className="mt-2">
-                <p className="text-sm text-green-600">✅ Image uploaded successfully!</p>
-                <img src={imageUrl} alt="Preview" className="mt-2 max-w-xs rounded" />
-              </div>
-            )}
 
-            {uploadError && (
-              <p className="text-sm text-red-600 mt-2">❌ {uploadError}</p>
-            )}
+
           </div>
 
           <div>
@@ -164,10 +159,50 @@ export default function ReportPage() {
           </div>
 
           <div>
+            <label className="block text-sm font-medium mb-1">Contact Email</label>
+            <div className="flex gap-2 items-center">
+              <input
+                type="email"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                disabled={anonymous}
+                className={`flex-1 rounded border px-3 py-2 ${anonymous ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                placeholder="Your email address"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  const newAnonymous = !anonymous;
+                  setAnonymous(newAnonymous);
+                  if (newAnonymous) {
+                    // When setting to anonymous, clear email
+                    setContactEmail("");
+                  } else if (session?.user?.email) {
+                    // When unchecking anonymous, restore email
+                    setContactEmail(session.user.email);
+                  }
+                }}
+                className={`px-4 py-2 rounded border transition ${
+                  anonymous
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                {anonymous ? "Anonymous ✓" : "Anonymous"}
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {anonymous
+                ? "Your email will not be shown to other users"
+                : "This email will be visible to other users who want to contact you"}
+            </p>
+          </div>
+
+          <div>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-blue-600 text-white px-4 py-2"
+              className="rounded bg-blue-600 text-white px-4 py-2 disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Report"}
             </button>

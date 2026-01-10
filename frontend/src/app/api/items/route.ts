@@ -3,31 +3,24 @@ import clientPromise from "@/lib/mongodb";
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    const searchParams = request.nextUrl.searchParams;
     const found = searchParams.get("found");
 
     const client = await clientPromise;
-    const db = client.db(); // Uses default database from connection string
-    const collection = db.collection("items");
+    const db = client.db();
 
-    // Build query based on found parameter
-    let query = {};
-    if (found === "true") {
-      query = { found: true };
-    } else if (found === "false") {
-      query = { found: false };
+    let query: any = {};
+    if (found !== null) {
+      query.found = found === "true";
     }
 
-    const items = await collection
-      .find(query)
-      .sort({ createdAt: -1 })
-      .toArray();
+    const items = await db.collection("items").find(query).sort({ createdAt: -1 }).toArray();
 
     return NextResponse.json(items);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching items:", error);
     return NextResponse.json(
-      { message: "Failed to fetch items" },
+      { message: error.message || "Failed to fetch items" },
       { status: 500 }
     );
   }
@@ -36,7 +29,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, location, found, imageUrl, user } = body;
+    const { title, description, location, found, imageUrl, contactEmail, anonymous } = body;
 
     if (!title) {
       return NextResponse.json(
@@ -47,28 +40,31 @@ export async function POST(request: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db();
-    const collection = db.collection("items");
 
-    const newItem = {
+    // Determine the contact info - use "anonymous" if anonymous flag is true, otherwise use email
+    const contact = anonymous ? "anonymous" : (contactEmail || "anonymous");
+
+    const item = {
       title,
       description: description || "",
       location: location || "",
-      found: found || false,
+      found: found === true,
       imageUrl: imageUrl || "",
-      user: user || "Anonymous",
+      user: contact, // Store as "anonymous" or the email address
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
-    const result = await collection.insertOne(newItem);
+    const result = await db.collection("items").insertOne(item);
 
     return NextResponse.json(
-      { ...newItem, _id: result.insertedId },
+      { ...item, _id: result.insertedId },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating item:", error);
     return NextResponse.json(
-      { message: "Failed to create item" },
+      { message: error.message || "Failed to create item" },
       { status: 500 }
     );
   }
