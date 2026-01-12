@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { ObjectId } from "mongodb";
 
 export async function GET(request: NextRequest) {
   try {
@@ -67,5 +70,45 @@ export async function POST(request: NextRequest) {
       { message: error.message || "Failed to create item" },
       { status: 500 }
     );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ message: "Missing id" }, { status: 400 });
+    }
+
+    // Validate session
+    const session = await getServerSession(authOptions as any);
+    if (!session || !(session as any).user?.email) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db();
+
+    const item = await db
+      .collection("items")
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!item) {
+      return NextResponse.json({ message: "Item not found" }, { status: 404 });
+    }
+
+  const email = (session as any).user.email.toLowerCase();
+    if (((item.user || "") as string).toLowerCase() !== email) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    await db.collection("items").deleteOne({ _id: new ObjectId(id) });
+
+    return NextResponse.json({ message: "Deleted" }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error deleting item:", error);
+    return NextResponse.json({ message: error.message || "Failed to delete item" }, { status: 500 });
   }
 }

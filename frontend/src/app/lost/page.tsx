@@ -54,6 +54,25 @@ export default function LostPage() {
   };
   }, [selectedItem]);
 
+  async function handleDelete(itemId: string) {
+    if (!confirm("Are you sure you want to delete this posting? This cannot be undone.")) return;
+
+    try {
+      const res = await fetch(`/api/items?id=${itemId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.message || "Failed to delete");
+      }
+
+      // remove from UI
+      setItems((prev) => prev.filter((it) => it._id !== itemId));
+      setSelectedItem(null);
+    } catch (err: any) {
+      console.error("Delete error:", err);
+      alert(err.message || "Failed to delete item");
+    }
+  }
+
   return (
     <main className="min-h-screen py-8">
       <div className="container mx-auto px-4">
@@ -228,6 +247,17 @@ export default function LostPage() {
                 📧 Contact: {selectedItem.user === "anonymous" || !selectedItem.user ? "anonymous" : selectedItem.user}
               </p>
 
+              {/* Delete button: only show if signed-in user's email matches item.user */}
+              {session?.user?.email && selectedItem.user && selectedItem.user.toLowerCase() === session.user.email?.toLowerCase() && (
+                <div className="mt-4">
+                  <button
+                    onClick={() => handleDelete(selectedItem._id)}
+                    className="rounded bg-red-600 text-white px-3 py-2 hover:bg-red-700"
+                  >
+                    Delete posting
+                  </button>
+                </div>
+              )}
               <p className="text-xs text-gray-400 mt-2">
                 {new Date(selectedItem.createdAt).toLocaleString()}
               </p>
