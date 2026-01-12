@@ -16,6 +16,7 @@ interface Item {
 
 export default function FoundPage() {
   const [items, setItems] = useState<Item[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
@@ -59,13 +60,58 @@ export default function FoundPage() {
           Items other users have marked as found — check here to claim them.
         </p>
 
+        {/* Search bar */}
+        <div className="mb-6">
+          <label htmlFor="search" className="sr-only">
+            Search found items
+          </label>
+          <div className="flex items-center gap-2">
+            <input
+              id="search"
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by title, description, location, or user"
+              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="text-sm text-gray-600 hover:text-black"
+                aria-label="Clear search"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
         {loading ? (
           <p>Loading found items...</p>
         ) : items.length === 0 ? (
           <p className="text-gray-500">No found items reported yet.</p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
+          (() => {
+            const filteredItems = items.filter((item) => {
+              if (!searchTerm) return true;
+              const s = searchTerm.toLowerCase();
+              return (
+                item.title?.toLowerCase().includes(s) ||
+                item.description?.toLowerCase().includes(s) ||
+                item.location?.toLowerCase().includes(s) ||
+                (item.user || "").toLowerCase().includes(s)
+              );
+            });
+
+            if (filteredItems.length === 0) {
+              return (
+                <p className="text-gray-500">No items match your search.</p>
+              );
+            }
+
+            return (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredItems.map((item) => (
               <div
                 key={item._id}
                 onClick={() => setSelectedItem(item)}
@@ -109,8 +155,10 @@ export default function FoundPage() {
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
+                ))}
+              </div>
+            );
+          })()
         )}
 
         {/* modal */}
