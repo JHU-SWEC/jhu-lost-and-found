@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import FoundItemsView, { FoundItem } from "./components/FoundItemsView";
 
@@ -18,6 +19,8 @@ export default function FoundPage() {
   const [items, setItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const { data: session } = useSession();
+  const [onlyMine, setOnlyMine] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   useEffect(() => {
@@ -74,15 +77,28 @@ export default function FoundPage() {
               placeholder="Search by title, description, location, or user"
               className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
-            {searchTerm && (
+            <div className="flex items-center gap-2">
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="text-sm text-gray-600 hover:text-black"
+                  aria-label="Clear search"
+                >
+                  Clear
+                </button>
+              )}
+
               <button
-                onClick={() => setSearchTerm("")}
-                className="text-sm text-gray-600 hover:text-black"
-                aria-label="Clear search"
+                onClick={() => setOnlyMine((v) => !v)}
+                disabled={!session?.user?.email}
+                className={`text-sm px-3 py-2 rounded border transition ${
+                  onlyMine ? "bg-blue-600 text-white border-blue-600" : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                } ${!session?.user?.email ? "opacity-50 cursor-not-allowed" : ""}`}
+                title={session?.user?.email ? "Show only my postings" : "Sign in to filter by your postings"}
               >
-                Clear
+                {onlyMine ? "My postings" : "Only my postings"}
               </button>
-            )}
+            </div>
           </div>
         </div>
 
@@ -93,6 +109,12 @@ export default function FoundPage() {
         ) : (
           (() => {
             const filteredItems = items.filter((item) => {
+              if (onlyMine) {
+                const email = session?.user?.email?.toLowerCase() || "";
+                if (!email) return false;
+                if ((item.user || "").toLowerCase() !== email) return false;
+              }
+
               if (!searchTerm) return true;
               const s = searchTerm.toLowerCase();
               return (
