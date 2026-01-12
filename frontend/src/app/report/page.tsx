@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export default function ReportPage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("lost");
   const [location, setLocation] = useState("");
@@ -90,6 +92,12 @@ export default function ReportPage() {
     }
 
     setMessage("✅ Report submitted successfully!");
+
+    // Redirect to the appropriate page (found or lost)
+    const destination = category === "found" ? "/found" : "/lost";
+    router.push(destination);
+
+    // Note: we still reset local form state in case router doesn't navigate immediately
     setTitle("");
     setLocation("");
     setDescription("");
