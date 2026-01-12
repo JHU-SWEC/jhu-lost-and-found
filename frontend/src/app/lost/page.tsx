@@ -156,7 +156,7 @@ export default function LostPage() {
               <div
                 key={item._id}
                 onClick={() => setSelectedItem(item)}
-                className="cursor-pointer border rounded-md overflow-hidden shadow-sm hover:shadow-md transition"
+                className="relative cursor-pointer border rounded-md overflow-hidden shadow-sm hover:shadow-md transition"
               >
                 {item.imageUrl && (
                   <div className="w-full aspect-video overflow-hidden bg-gray-100">
@@ -166,6 +166,16 @@ export default function LostPage() {
                       className="w-full h-full object-cover"
                     />
                   </div>
+                )}
+                {/* Small delete button on tile (bottom-right) for owners */}
+                {session?.user?.email && item.user && item.user.toLowerCase() === session.user.email?.toLowerCase() && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                    className="absolute bottom-3 right-3 z-20 bg-red-600 text-white text-sm px-2 py-1 rounded shadow hover:bg-red-700"
+                    aria-label="Delete posting"
+                  >
+                    Delete
+                  </button>
                 )}
                 <div className="p-4">
                   <h2 className="font-semibold text-lg">{item.title}</h2>
