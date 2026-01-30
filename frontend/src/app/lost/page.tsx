@@ -275,14 +275,16 @@ export default function LostPage() {
           </div>
         )}
 
-        <div className="mt-8">
-          <Link
-            href="/report"
-            className="inline-block rounded bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
-          >
-            Report a lost or found item
-          </Link>
-        </div>
+        {session && (
+          <div className="mt-8">
+            <Link
+              href="/report"
+              className="inline-block rounded bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
+            >
+              Report a lost or found item
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   );

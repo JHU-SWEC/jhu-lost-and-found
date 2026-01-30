@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 
 export default function ReportPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("lost");
@@ -120,6 +120,35 @@ export default function ReportPage() {
   }
 }
 
+
+  if (status === "loading") {
+    return (
+      <main className="flex flex-col min-h py-8">
+        <div className="max-w-2xs px-4 ml-0 sm:ml-4 lg:ml-8">
+          <p>Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!session) {
+    return (
+      <main className="flex flex-col min-h py-8">
+        <div className="max-w-2xs px-4 ml-0 sm:ml-4 lg:ml-8">
+          <h1 className="text-2xl font-bold mb-4">Report Lost or Found Item</h1>
+          <p className="text-gray-600 mb-6">
+            You must be logged in to report an item.
+          </p>
+          <button
+            onClick={() => signIn("google", { callbackUrl: "/report" })}
+            className="rounded bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
+          >
+            Log in to continue
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col min-h py-8">

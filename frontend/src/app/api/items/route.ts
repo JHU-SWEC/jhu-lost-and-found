@@ -31,6 +31,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Require authentication to create items
+    const session = await getServerSession(authOptions as any);
+    if (!session || !(session as any).user?.email) {
+      return NextResponse.json({ message: "You must be logged in to post an item" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { title, description, location, found, imageUrl, contactEmail, anonymous } = body;
 

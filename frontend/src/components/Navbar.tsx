@@ -28,28 +28,25 @@ function Navbar() {
 
         {/* Right side - Navigation links */}
         <div className="flex items-center">
-          {/* Only show these links when logged in */}
+          <Link
+            href="/lost"
+            className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
+          >
+            Lost
+          </Link>
+          <Link
+            href="/found"
+            className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
+          >
+            Found
+          </Link>
           {session && (
-            <>
-              <Link
-                href="/lost"
-                className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
-              >
-                Lost
-              </Link>
-              <Link
-                href="/found"
-                className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
-              >
-                Found
-              </Link>
-              <Link
-                href="/report"
-                className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
-              >
-                Report
-              </Link>
-            </>
+            <Link
+              href="/report"
+              className="text-xs sm:text-base px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-100 rounded transition"
+            >
+              Report
+            </Link>
           )}
 
           {/* Auth section - hidden on mobile */}
