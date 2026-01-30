@@ -76,7 +76,7 @@ function Navbar() {
                 onClick={() => signIn("google", { callbackUrl: "/" })}
               >
                 <LogIn className="w-4 h-4 mr-1" />
-                <span>Login</span>
+                <span>Login to post</span>
               </Button>
             )}
           </div>
