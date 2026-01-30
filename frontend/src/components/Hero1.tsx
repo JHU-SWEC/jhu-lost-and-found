@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Search, MapPin, PenLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -70,16 +70,33 @@ const Hero1 = ({
           {loading ? (
             <span className="px-4 sm:px-40 lg:px-30 text-sm text-gray-500">Loading...</span>
           ) : session ? (
-            <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4 sm:gap-6 h-[calc(100vh-250px)] sm:h-auto">
-              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
-                <Link href="/lost" className="w-full h-full flex items-center justify-center">Search Lost Items</Link>
-              </Button>
-              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
-                <Link href="/found" className="w-full h-full flex items-center justify-center">Search Found Items</Link>
-              </Button>
-              <Button asChild className="flex-1 sm:flex-none w-full sm:w-full h-auto sm:h-48 text-lg sm:text-2xl group py-12 sm:py-8 border-2 border-blue-500 items-center justify-center rounded-lg bg-white text-blue-500 hover:bg-gray-200 active:bg-blue-800 transition shadow-md hover:shadow-lg font-semibold">
-                <Link href="/report" className="w-full h-full flex items-center justify-center">Report Lost/Found</Link>
-              </Button>
+            <div className="flex flex-col sm:grid sm:grid-cols-3 gap-5 sm:gap-7">
+              <Link href="/lost" className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-10 sm:py-14 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-blue-400 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white">
+                  <Search className="h-6 w-6" />
+                </div>
+                <span className="relative z-10 text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">Search Lost Items</span>
+                <span className="relative z-10 text-sm text-gray-400 group-hover:text-gray-500 transition-colors duration-300">Find something you lost</span>
+              </Link>
+
+              <Link href="/found" className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-10 sm:py-14 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-400 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white">
+                  <MapPin className="h-6 w-6" />
+                </div>
+                <span className="relative z-10 text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-emerald-700 transition-colors duration-300">Search Found Items</span>
+                <span className="relative z-10 text-sm text-gray-400 group-hover:text-gray-500 transition-colors duration-300">Claim what&apos;s been found</span>
+              </Link>
+
+              <Link href="/report" className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-10 sm:py-14 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-amber-400 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 text-amber-600 transition-colors duration-300 group-hover:bg-amber-600 group-hover:text-white">
+                  <PenLine className="h-6 w-6" />
+                </div>
+                <span className="relative z-10 text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-amber-700 transition-colors duration-300">Report Lost/Found</span>
+                <span className="relative z-10 text-sm text-gray-400 group-hover:text-gray-500 transition-colors duration-300">Post an item you found or lost</span>
+              </Link>
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-4">
