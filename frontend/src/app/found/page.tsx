@@ -13,6 +13,7 @@ interface Item {
   createdAt: string;
   imageUrl: string;
   user?: string;
+  postedBy?: string;
 }
 
 export default function FoundPage() {
@@ -166,7 +167,7 @@ export default function FoundPage() {
                     />
                   </div>
                 )}
-                {session?.user?.email && item.user && item.user.toLowerCase() === session.user.email?.toLowerCase() && (
+                {session?.user?.email && (item.postedBy || item.user || "").toLowerCase() === session.user.email?.toLowerCase() && (
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
                     className="absolute bottom-3 right-3 z-20 bg-red-600 text-white text-sm px-2 py-1 rounded shadow hover:bg-red-700"
@@ -255,7 +256,7 @@ export default function FoundPage() {
                 📧 Contact: {selectedItem.user === "anonymous" || !selectedItem.user ? "anonymous" : selectedItem.user}
               </p>
 
-              {session?.user?.email && selectedItem.user && selectedItem.user.toLowerCase() === session.user.email?.toLowerCase() && (
+              {session?.user?.email && (selectedItem.postedBy || selectedItem.user || "").toLowerCase() === session.user.email?.toLowerCase() && (
                 <div className="mt-4">
                   <button
                     onClick={() => handleDelete(selectedItem._id)}

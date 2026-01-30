@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
       found: found === true,
       imageUrl: imageUrl || "",
       user: contact, // Store as "anonymous" or the email address
+      postedBy: (session as any).user.email.toLowerCase(), // Always store actual poster for delete auth
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -106,7 +107,8 @@ export async function DELETE(request: NextRequest) {
     }
 
   const email = (session as any).user.email.toLowerCase();
-    if (((item.user || "") as string).toLowerCase() !== email) {
+    const ownerEmail = (item.postedBy || item.user || "").toLowerCase();
+    if (ownerEmail !== email) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 
